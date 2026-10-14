@@ -58,6 +58,29 @@ sonra tıklanabilir hâle gelir.
 > Alan adı doğrulaması sürerken kutunun pasif görünmesi normaldir; DNS
 > kontrolü bitince (yeşil tik) etkinleşir.
 
+## Alan adı gizliliği ve DNSSEC
+
+**Whois:** `.online` bir gTLD olduğu için ICANN Geçici Şartnamesi gereği kişisel
+iletişim bilgileri (ad, adres, telefon, e-posta) WHOIS/RDAP yanıtlarından
+**çıkarılır**. Yani `whois indiecore.online` sorgusu adın, adresin veya telefonun
+numarasını göstermez; yalnızca registrar (GoDaddy), oluşturma/bitiş tarihi ve
+durum kodları görünür.
+
+**DNSSEC:** şu anda **kapalı** (WHOIS'te `DNSSEC: unsigned`, parent sunucusunda DS
+kaydı yok). DNS'in DNSSEC ile imzalanması, sahte sunucu kayıtlarının
+(cache poisoning) ziyaretçilere iletilmesini engeller. GoDaddy panelinde
+*Domain Management → DNS* bölümünde DNSSEC için DS kaydı alınabilir; desteklenen
+TLD'ler listesinde `.online` varsa ücretsiz açılabilir.
+
+Açıldıktan sonra DS kaydının kayıt sunucusuna (`.online`) yayılması **1–24 saat**
+sürebilir. Doğrulama:
+
+```
+whois indiecore.online | findstr /i DNSSEC
+```
+
+`unsigned` yerine `signed` yazıyorsa DNSSEC aktif demektir.
+
 ## Değiştirmek için
 
 Metinleri `index.html` içinde düzenleyin, `git push` yapın. GitHub Pages
