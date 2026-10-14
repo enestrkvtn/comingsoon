@@ -18,8 +18,16 @@ Bağımlılık yok, derleme yok. GitHub Pages dosyaları doğrudan sunar.
 ## Alan adını bağlama
 
 `CNAME` dosyası sayesinde Settings → Pages bölümünde alan adı "indiecore.online"
-görünecek. GitHub, DNS kayıtları doğruysa **Let's Encrypt sertifikasını kendisi
-üretir** — sertifika ayrıca alınmaz.
+görünecek. DNS kayıtları doğru olduğunda **GitHub sertifikayı kendisi
+üretir** — sertifika ayrıca satın alınmaz.
+
+> GoDaddy'den alınan alan adlarında sertifikayı **GoDaddy** üretir (Let's
+> Encrypt değil). Let's Encrypt kullanılan durumlarda süreç aynıdır: DNS
+> doğrulamasından sonra GitHub otomatik yapar.
+>
+> **Süre:** DNS yayılımı + doğrulama + imzalama. Genelde dakikalar, bazen
+> birkaç saat. Bu süre zarfında `http` istekleri `https`'e (308) yönlendirilir
+> ama henüz sertifika gelmediği için tarayıcı uyarı gösterir. Normal.
 
 DNS'in GoDaddy'de şu kayıtlara sahip olması gerekir:
 
@@ -40,7 +48,9 @@ DNS'in GoDaddy'de şu kayıtlara sahip olması gerekir:
 
 > Tek A kaydı yetmez — GitHub dört IP döndürür. Dördü de eklenmeli.
 
-Ayrıca Aynen GitHub'da **Settings → Pages → Enforce HTTPS** açık olmalı.
+GitHub `http` → `https` yönlendirmesini (308) kendisi kapatır. Ek olarak GitHub'da
+**Settings → Pages → Enforce HTTPS** açık olursa davranış aynı kalır; düğme
+bazen sertifika üretildikten sonra görünür olur.
 
 ## Değiştirmek için
 
