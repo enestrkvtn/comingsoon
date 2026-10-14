@@ -18,16 +18,18 @@ Bağımlılık yok, derleme yok. GitHub Pages dosyaları doğrudan sunar.
 ## Alan adını bağlama
 
 `CNAME` dosyası sayesinde Settings → Pages bölümünde alan adı "indiecore.online"
-görünecek. DNS kayıtları doğru olduğunda **GitHub sertifikayı kendisi
-üretir** — sertifika ayrıca satın alınmaz.
+görünecek. DNS kayıtları doğru olduğunda **sertifikayı GitHub kendisi üretir** —
+registrar kim olursa olsun (GoDaddy dahil) bu değişmez, sertifika ayrıca satın
+alınmaz.
 
-> GoDaddy'den alınan alan adlarında sertifikayı **GoDaddy** üretir (Let's
-> Encrypt değil). Let's Encrypt kullanılan durumlarda süreç aynıdır: DNS
-> doğrulamasından sonra GitHub otomatik yapar.
+> **Sertifika:** Let's Encrypt tarafından imzalanır. Konu `CN=indiecore.online`;
+> SAN alanları `indiecore.online` ve `www.indiecore.online`. Geçerlilik 90 gün,
+> GitHub kendisi yeniler.
 >
-> **Süre:** DNS yayılımı + doğrulama + imzalama. Genelde dakikalar, bazen
-> birkaç saat. Bu süre zarfında `http` istekleri `https`'e (308) yönlendirilir
-> ama henüz sertifika gelmediği için tarayıcı uyarı gösterir. Normal.
+> **Süre:** DNS yayılımı + doğrulama + imzalama. Genelde dakikalar, bazen birkaç
+> saat. `www` için sertifika ayrıca üretilir ve o aralıkta
+> `www.indiecore.online` tarayıcıda uyarı gösterir; `indiecore.online` bu
+> sırada sorunsuz açılır.
 
 DNS'in GoDaddy'de şu kayıtlara sahip olması gerekir:
 
@@ -44,13 +46,17 @@ DNS'in GoDaddy'de şu kayıtlara sahip olması gerekir:
 
 | Tip | Ad | Değer |
 |---|---|---|
-| CNAME | `www` | `<kullanici-adiniz>.github.io` |
+| CNAME | `www` | `enestrkvtn.github.io` |
 
 > Tek A kaydı yetmez — GitHub dört IP döndürür. Dördü de eklenmeli.
 
-GitHub `http` → `https` yönlendirmesini (308) kendisi kapatır. Ek olarak GitHub'da
-**Settings → Pages → Enforce HTTPS** açık olursa davranış aynı kalır; düğme
-bazen sertifika üretildikten sonra görünür olur.
+GitHub'da **Settings → Pages → Enforce HTTPS** açık olmalı. Bu ayar, `http`
+isteklerini `https`'e (301) yönlendirir; kapalıyken site düz metin olarak da
+sunulur ve istemci tarafından güvenliğe zorlanmaz. Düğme, sertifika üretildikten
+sonra tıklanabilir hâle gelir.
+
+> Alan adı doğrulaması sürerken kutunun pasif görünmesi normaldir; DNS
+> kontrolü bitince (yeşil tik) etkinleşir.
 
 ## Değiştirmek için
 
