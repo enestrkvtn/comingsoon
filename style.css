@@ -1,0 +1,207 @@
+/* ==========================================================
+   IndieCore - Yakında sayfası
+   Renkler ana uygulamadan (public/css/style.css + koyu.css)
+   birebir alındı: sayfa ve uygulama aynı görünsün.
+   ========================================================== */
+
+:root {
+  --bg: #f7f7f8;
+  --surface: #ffffff;
+  --border: #e6e6ea;
+  --text: #17171b;
+  --muted: #6b6b77;
+  --accent: #2f6bff;
+  --accent-soft: rgba(47, 107, 255, 0.10);
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="acik"]) {
+    --bg: #0d0d0f;
+    --surface: #141417;
+    --border: #232329;
+    --text: #ffffff;
+    --muted: #8e8e99;
+    --accent: #2f6bff;
+    --accent-soft: rgba(47, 107, 255, 0.16);
+  }
+}
+
+/* Elle seçilmiş tema (düğmeyle). Tercih sistemi varsayılan. */
+:root[data-tema="koyu"] {
+  --bg: #0d0d0f;
+  --surface: #141417;
+  --border: #232329;
+  --text: #ffffff;
+  --muted: #8e8e99;
+  --accent-soft: rgba(47, 107, 255, 0.16);
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  display: grid;
+  place-items: center;
+  padding: 32px 20px;
+  transition: background .2s ease, color .2s ease;
+}
+
+/* Yumuşak arka plan halesi — kart yüzer gibi dursun */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(60% 50% at 50% 0%, var(--accent-soft), transparent 70%);
+}
+
+.sahne {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+}
+
+/* ------------------------------------------------------------ logo */
+.marka { color: var(--accent); margin-bottom: 26px; }
+.marka svg { display: block; margin: 0 auto; overflow: visible; }
+
+/* Halka bir tur dolansın ve dursun. Yumuşak, dikkat çekmeyen. */
+.marka-halka {
+  transform-origin: 50% 50%;
+  animation: dolan 2.6s cubic-bezier(.65, 0, .35, 1) infinite;
+  transform: rotate(-90deg);
+}
+
+@keyframes dolan {
+  from { stroke-dashoffset: 26; }
+  to   { stroke-dashoffset: -74; }
+}
+
+/* ------------------------------------------------------------ metin */
+.baslik {
+  margin: 0;
+  font-size: clamp(34px, 8vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.slogan {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 17px;
+}
+
+.durum {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 26px 0 0;
+  padding: 7px 15px 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.durum-nokta {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 var(--accent-soft);
+  animation: nabiz 2s ease-out infinite;
+}
+
+@keyframes nabiz {
+  0%   { box-shadow: 0 0 0 0 var(--accent-soft); }
+  70%  { box-shadow: 0 0 0 9px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+/* ------------------------------------------------------------ özellikler */
+.ozellikler {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 30px 0 0;
+  padding: 0;
+}
+
+.ozellikler li {
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 14px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.alt {
+  margin: 28px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.dip { margin-top: 44px; }
+
+.dip a {
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2px;
+  transition: color .15s ease, border-color .15s ease;
+}
+
+.dip a:hover,
+.dip a:focus-visible { color: var(--accent); border-color: var(--accent); }
+
+/* ------------------------------------------------------------ tema düğmesi */
+.tema-btn {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 2;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  transition: color .15s ease, border-color .15s ease;
+}
+
+.tema-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+/* Güneş koyu temada, ay açık temada görünür. */
+.tema-btn .ikon-ay { grid-area: 1 / 1; }
+:root:not([data-tema="koyu"]) .tema-btn .ikon-ay:nth-of-type(1),
+:root[data-tema="koyu"] .tema-btn .ikon-ay:nth-of-type(2) { display: none; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Hareket azaltma tercihi olan kullanıcılar için animasyonlar kapanır. */
+@media (prefers-reduced-motion: reduce) {
+  .marka-halka, .durum-nokta { animation: none; }
+  body, .tema-btn, .dip a { transition: none; }
+}
